@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Enemy : Entity
 {
@@ -15,6 +16,13 @@ public class Enemy : Entity
     public float attackDistance;
     public float attackCooldown;
     [HideInInspector] public float lastTimeAttacked;
+
+    [Header("Stunned info")]
+    public float stunDuration;
+    public Vector2 stunDir;
+    protected bool canBeStunned;
+    [SerializeField] protected GameObject counterImage;
+
 
     public EnemyStateMachine stateMachine { get; private set; }
     protected override void Awake()
@@ -41,4 +49,27 @@ public class Enemy : Entity
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStunned = true;
+        counterImage.SetActive(true);
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
+    }
+
+    public virtual bool CanBeStunned()
+    {
+        if (canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
+
+    }
 }

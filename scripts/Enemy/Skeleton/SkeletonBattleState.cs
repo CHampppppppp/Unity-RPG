@@ -48,7 +48,7 @@ public class SkeletonBattleState : EnemyState
         else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
 
-        enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
+        enemy.SetVelocity(enemy.moveSpeed * moveDir * 2, rb.velocity.y);// BattleState move speed
     }
 
     public override void Exit()
@@ -63,7 +63,6 @@ public class SkeletonBattleState : EnemyState
             enemy.lastTimeAttacked = Time.time;
             return true;
         }
-        Debug.Log("cooldown");
         return false;
     }
 

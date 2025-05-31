@@ -12,7 +12,6 @@ public class SkeletonIdelState : SkeletonGroundedState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Enter idelState!");
         enemy.SetZeroVelocity();
         stateTimer = enemy.idelTime;
     }

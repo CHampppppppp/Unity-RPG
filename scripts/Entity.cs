@@ -6,11 +6,17 @@ public class Entity : MonoBehaviour
 {
 
     [Header("Collision info")]
+    public Transform attackCheck;
+    public float attackCheckRadius;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
+
+    [Header("Knockback info")]
+    [SerializeField] protected Vector2 knockbackDirection;
+    protected bool isKnocked;
 
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
@@ -18,6 +24,8 @@ public class Entity : MonoBehaviour
     #region components
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+
+    public EntityFX fx { get; private set; }
     #endregion
 
 
@@ -32,6 +40,7 @@ public class Entity : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        fx = GetComponent<EntityFX>();
     }
 
     protected virtual void Update()
@@ -50,8 +59,10 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + facingDir * wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
+
 
     #region Flip
     public virtual void Flip()
@@ -74,12 +85,38 @@ public class Entity : MonoBehaviour
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
+
+        if (isKnocked)
+            return;
+
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
 
-    public void SetZeroVelocity() => rb.velocity = new Vector2(0, 0);
+    public void SetZeroVelocity()
+    {
+        if(isKnocked)
+            return;
+        rb.velocity = new Vector2(0, 0);
+    }
     #endregion
+
+    public virtual void Damaged(float _attackDir)
+    {
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine("HitKnockback",_attackDir);
+    }
+
+
+    protected virtual IEnumerator HitKnockback(float _attackDir)
+    {
+        isKnocked = true;
+
+        rb.velocity = new Vector2(knockbackDirection.x * _attackDir, knockbackDirection.y);
+
+        yield return new WaitForSeconds(0.07f);
+        isKnocked = false;
+    }
 
 
 }
