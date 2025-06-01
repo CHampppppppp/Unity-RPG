@@ -56,6 +56,7 @@ public class PlayerStates
     {
         if (player.IsWallDetected())
             return;
+
         player.dashDir = Input.GetAxisRaw("Horizontal");
 
         if (player.dashDir == 0)//Ä¬ÈÏÍùÇ°³å´Ì
@@ -63,7 +64,7 @@ public class PlayerStates
             player.dashDir = player.facingDir;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
             stateMachine.ChangeState(player.dashState);
         }

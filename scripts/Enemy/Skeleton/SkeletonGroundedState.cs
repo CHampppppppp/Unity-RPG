@@ -17,7 +17,7 @@ public class SkeletonGroundedState : EnemyState
     {
         base.Enter();
 
-        player = GameObject.Find("Player").transform;
+        player = PlayerManager.instance.player.transform;
     }
 
     public override void Exit()
@@ -29,7 +29,7 @@ public class SkeletonGroundedState : EnemyState
     {
         base.Update();
 
-        if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position,player.position) < 2) 
+        if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position,player.position) < 2) //感知到附近的玩家开始追杀状态（battleState）
             stateMachine.ChangeState(enemy.battleState);
     }
 }

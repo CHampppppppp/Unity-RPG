@@ -101,7 +101,7 @@ public class Entity : MonoBehaviour
     }
     #endregion
 
-    public virtual void Damaged(float _attackDir)
+    public virtual void Damaged(float _attackDir)//攻击方的朝向=受击方被击飞的方向
     {
         fx.StartCoroutine("FlashFX");
         StartCoroutine("HitKnockback",_attackDir);

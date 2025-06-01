@@ -18,8 +18,10 @@ public class SkeletonBattleState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        
+        Debug.Log("AHHHHHH");
 
-        player = GameObject.Find("Player").transform;
+        player = PlayerManager.instance.player.transform;
     }
     public override void Update()
     {
@@ -31,7 +33,7 @@ public class SkeletonBattleState : EnemyState
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
-                if (CanAttack())
+                if (CanAttack())//¹¥»÷ÀäÈ´Ê±¼ä
                 {
                     stateMachine.ChangeState(enemy.attackState);
                 }
@@ -39,7 +41,7 @@ public class SkeletonBattleState : EnemyState
         }
         else
         {
-            if(stateTimer < 0 || Vector2.Distance(player.transform.position,enemy.transform.position) > 10)
+            if(stateTimer < 0 || Vector2.Distance(player.transform.position,enemy.transform.position) > 10)//³¬³öÊÓ¾à·ÅÆú×·É±
                 stateMachine.ChangeState(enemy.idelState);
         }
 
@@ -47,7 +49,7 @@ public class SkeletonBattleState : EnemyState
             moveDir = 1;
         else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
-
+        
         enemy.SetVelocity(enemy.moveSpeed * moveDir * 2, rb.velocity.y);// BattleState move speed
     }
 

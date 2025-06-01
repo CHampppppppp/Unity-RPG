@@ -38,7 +38,7 @@ public class Enemy : Entity
         stateMachine.currentState.Update();
     }
 
-    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50, whatIsPlayer);
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 10, whatIsPlayer);
 
     protected override void OnDrawGizmos()
     {

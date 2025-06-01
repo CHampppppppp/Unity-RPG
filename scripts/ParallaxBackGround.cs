@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+//营造移动视差效果
 public class ParallaxBackGround : MonoBehaviour
 {
     private GameObject cam;

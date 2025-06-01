@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class GroundedState : PlayerStates
@@ -24,6 +25,11 @@ public class GroundedState : PlayerStates
         if (player.IsGroundDetected() && Input.GetKeyDown(KeyCode.Space))
         {
             stateMachine.ChangeState(player.jumpState);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            stateMachine.ChangeState(player.aimSwordState);
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse0))

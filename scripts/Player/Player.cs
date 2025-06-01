@@ -42,9 +42,12 @@ public class Player : Entity
     public PrimaryAttackState primaryAttackState { get; private set; }
 
     public PlayerCounterAttackState counterAttackState { get; private set; }
+    public AimSwordState aimSwordState { get; private set; }
+
+    public CatchSwordState catchSwordState { get; private set; }
     #endregion
 
-
+    public SkillManager skill {  get; private set; }
                                                                                         
     //∂®“Â
     protected override void Awake()
@@ -60,12 +63,15 @@ public class Player : Entity
         wallJumpState = new WallJumpState(this, stateMachine, "jump");
         primaryAttackState = new PrimaryAttackState(this, stateMachine, "attack");
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
+        aimSwordState = new AimSwordState(this, stateMachine, "aimSword");
+        catchSwordState = new CatchSwordState(this, stateMachine, "catchSword");
     }
 
     protected override void Start()
     {
         base.Start();
         stateMachine.StartMachine(airState);
+        skill = SkillManager.instance;
     }
 
 
