@@ -11,7 +11,6 @@ public class AimSwordState : PlayerStates
     public override void Enter()
     {
         base.Enter();
-        player.SetZeroVelocity();
         player.skill.sword.DotsActive(true);
     }
 
@@ -23,8 +22,11 @@ public class AimSwordState : PlayerStates
     public override void Update()
     {
         base.Update();
+        player.SetZeroVelocity();
 
-        if(Input.GetKeyUp(KeyCode.Mouse1))
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
             stateMachine.ChangeState(player.idelState);
+        }
     }
 }

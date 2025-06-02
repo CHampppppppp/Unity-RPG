@@ -96,7 +96,9 @@ public class Entity : MonoBehaviour
     public void SetZeroVelocity()
     {
         if(isKnocked)
+        {
             return;
+        }
         rb.velocity = new Vector2(0, 0);
     }
     #endregion

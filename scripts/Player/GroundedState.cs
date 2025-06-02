@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Autodesk.Fbx;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class GroundedState : PlayerStates
             stateMachine.ChangeState(player.jumpState);
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse1))
+        if(Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
         {
             stateMachine.ChangeState(player.aimSwordState);
         }
@@ -38,5 +39,14 @@ public class GroundedState : PlayerStates
         if(Input.GetKeyDown(KeyCode.Q))
             stateMachine.ChangeState(player.counterAttackState);
 
+    }
+
+    private bool HasNoSword()
+    {
+        if (!player.sword)
+            return true;
+
+        player.sword.GetComponent<SwordSkillController>().ReturnSword();
+        return false;
     }
 }

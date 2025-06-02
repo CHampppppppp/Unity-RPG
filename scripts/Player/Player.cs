@@ -48,6 +48,7 @@ public class Player : Entity
     #endregion
 
     public SkillManager skill {  get; private set; }
+    public GameObject sword {  get; private set; }
                                                                                         
     //¶¨Òå
     protected override void Awake()
@@ -82,7 +83,15 @@ public class Player : Entity
         stateMachine.currentState.Update();
     }
 
+    public void AssignNewSword(GameObject _newSword)
+    {
+        sword = _newSword;
+    }
 
+    public void ClearSword()
+    {
+        Destroy(sword);
+    }
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 

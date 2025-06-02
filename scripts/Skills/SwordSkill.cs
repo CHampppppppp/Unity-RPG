@@ -8,9 +8,9 @@ public class SwordSkill : Skills
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 lauchForce;
-    [SerializeField] private float swordGravity;
+    [SerializeField] public float swordGravity;
 
-    private Vector2 finalDir = new Vector2(1,1);
+    private Vector2 finalDir;
 
     [Header("Aim dots")]
     [SerializeField] private int numberOfDots;
@@ -41,7 +41,6 @@ public class SwordSkill : Skills
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             finalDir = new Vector2(AimDirection().normalized.x * lauchForce.x, AimDirection().normalized.y * lauchForce.y);
-            Debug.Log(finalDir);
         }
     }
 
@@ -61,9 +60,12 @@ public class SwordSkill : Skills
             Debug.LogError("SwordSkillController component is missing on swordPrefab!");
             return;
         }
+        swordController.SetupSword(finalDir, swordGravity,player);
 
-        swordController.SetupSword(finalDir, swordGravity);
+        player.AssignNewSword(newSword);
+
         DotsActive(false);
+
     }
 
     public Vector2 AimDirection()
@@ -90,7 +92,7 @@ public class SwordSkill : Skills
 
     private Vector2 DotsPosition(float t)
     {
-        Vector2 position = (Vector2)player.transform.position * new Vector2(
+        Vector2 position = (Vector2)player.transform.position + new Vector2(
             AimDirection().normalized.x * lauchForce.x, 
             AimDirection().normalized.y * lauchForce.y
             ) * t + .5f * (Physics2D.gravity * swordGravity) * (t * t);
@@ -104,5 +106,6 @@ public class SwordSkill : Skills
         {
             dots[i].SetActive(_isActive);
         }
+        Debug.Log("DotsActive " + _isActive);
     }
 }
