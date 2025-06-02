@@ -15,9 +15,10 @@ public class Player : Entity
     public bool isBusy {  get; private set; }  
 
     [Header("Move info")]
-    public float moveSpeed = 6f;
-    public float jumpForce = 4f;
-    public float jumpSpeed;
+    public float moveSpeed = 10.5f;
+    public float jumpForce = 8.52f;
+    public float jumpSpeed = 8.53f;
+    public float swordReturnImpact = 7;
 
     
 
@@ -88,8 +89,9 @@ public class Player : Entity
         sword = _newSword;
     }
 
-    public void ClearSword()
+    public void CatchSword()
     {
+        stateMachine.ChangeState(catchSwordState);
         Destroy(sword);
     }
 

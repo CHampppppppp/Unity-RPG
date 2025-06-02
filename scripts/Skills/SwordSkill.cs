@@ -53,7 +53,7 @@ public class SwordSkill : Skills
         }
 
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
-        SwordSkillController swordController = newSword.GetComponent<SwordSkillController>();
+        SwordController swordController = newSword.GetComponent<SwordController>();
 
         if (swordController == null)
         {
@@ -106,6 +106,5 @@ public class SwordSkill : Skills
         {
             dots[i].SetActive(_isActive);
         }
-        Debug.Log("DotsActive " + _isActive);
     }
 }

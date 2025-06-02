@@ -40,7 +40,7 @@ public class EnemyState
 
     }
 
-    public virtual void AnimationFinishTrigger()
+    public virtual void AnimationTrigger()
     {
         triggerCalled = true;
     }

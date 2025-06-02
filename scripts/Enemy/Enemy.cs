@@ -48,7 +48,7 @@ public class Enemy : Entity
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + facingDir * attackDistance, transform.position.y));
     }
 
-    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationTrigger();
 
     public virtual void OpenCounterAttackWindow()
     {

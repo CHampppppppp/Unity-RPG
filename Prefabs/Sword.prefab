@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6720534903724086194}
+  - component: {fileID: 3672924676628324262}
   - component: {fileID: 8758128615650905980}
   - component: {fileID: 3967677522967386893}
-  - component: {fileID: 6350662902878541669}
   m_Layer: 8
   m_Name: Sword
   m_TagString: Untagged
@@ -35,6 +35,21 @@ Transform:
   - {fileID: 5329624647937011572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3672924676628324262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4481651275676981254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1cb903b889427b48a5f1859df47f733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnSpeed: 12
+  anim: {fileID: 2338679434995366666}
+  rb: {fileID: 8758128615650905980}
 --- !u!50 &8758128615650905980
 Rigidbody2D:
   serializedVersion: 4
@@ -97,20 +112,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6350662902878541669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4481651275676981254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1cb903b889427b48a5f1859df47f733, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnSpeed: 12
-  rb: {fileID: 8758128615650905980}
 --- !u!1 &8892608522322118004
 GameObject:
   m_ObjectHideFlags: 0

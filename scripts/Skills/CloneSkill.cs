@@ -12,7 +12,7 @@ public class CloneSkill : Skills
     {
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneSkillController>().SetupClone(_cloneTransform,cloneDuration,canAttack);
+        newClone.GetComponent<CloneController>().SetupClone(_cloneTransform,cloneDuration,canAttack);
     }
 
 

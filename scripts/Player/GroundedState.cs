@@ -26,18 +26,26 @@ public class GroundedState : PlayerStates
         if (player.IsGroundDetected() && Input.GetKeyDown(KeyCode.Space))
         {
             stateMachine.ChangeState(player.jumpState);
+            return;
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
         {
             stateMachine.ChangeState(player.aimSwordState);
+            return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
             stateMachine.ChangeState(player.primaryAttackState);
+            return;
+        }
 
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
             stateMachine.ChangeState(player.counterAttackState);
+            return;
+        }
 
     }
 
@@ -46,7 +54,7 @@ public class GroundedState : PlayerStates
         if (!player.sword)
             return true;
 
-        player.sword.GetComponent<SwordSkillController>().ReturnSword();
+        player.sword.GetComponent<SwordController>().ReturnSword();
         return false;
     }
 }
