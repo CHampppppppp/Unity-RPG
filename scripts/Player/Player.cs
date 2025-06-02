@@ -10,8 +10,10 @@ public class Player : Entity
     [Header("Attack details")]
     public Vector2[] attackMovement;
     public float counterAttackDuration = .2f;
+    public float throwDir;
 
-       
+
+
     public bool isBusy {  get; private set; }  
 
     [Header("Move info")]

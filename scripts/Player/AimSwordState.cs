@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class AimSwordState : PlayerStates
 {
+
+
     public AimSwordState(Player _player, StateMachine _stateMachine, string _aniBoolName) : base(_player, _stateMachine, _aniBoolName)
     {
+
     }
 
     public override void Enter()
     {
         base.Enter();
-
         player.skill.sword.DotsActive(true);
     }
 
@@ -36,6 +38,9 @@ public class AimSwordState : PlayerStates
 
         if ((player.transform.position.x > mousePosition.x && player.facingDir == 1) ||
             (player.transform.position.x < mousePosition.x && player.facingDir == -1))
+        {
             player.Flip();
+            player.throwDir = -player.throwDir;
+        }
     }
 }

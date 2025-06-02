@@ -37,12 +37,17 @@ public class SwordController : MonoBehaviour
         //rb.isKinematic = false;
         transform.parent = null;
         isReturning = true;
+        canRotate = true;
+        anim.SetBool("isRotating", true);
+
     }
 
     private void Update()
     {
         if (canRotate)
+        {
             transform.right = rb.velocity;//keep rotating man
+        }
 
         if (isReturning)
         {
@@ -62,7 +67,6 @@ public class SwordController : MonoBehaviour
             return;//返回途中不会再次碰撞
         }
 
-
         anim.SetBool("isRotating", false);
 
 
@@ -81,12 +85,14 @@ public class SwordController : MonoBehaviour
 
     private void ThrowHit()
     {
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, 4);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position,2);
         if (hit != null)
         {
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.Damaged(-enemy.facingDir);
+                enemy.Damaged(player.throwDir);
+            else
+                Debug.Log("enemy is null!");
         }
     }
 
@@ -97,7 +103,9 @@ public class SwordController : MonoBehaviour
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.Damaged(-enemy.facingDir);
+                enemy.Damaged(player.throwDir);
+            else
+                Debug.Log("enemy is null!");
         }
     }
 }
