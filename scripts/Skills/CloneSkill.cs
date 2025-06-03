@@ -8,11 +8,11 @@ public class CloneSkill : Skills
     [SerializeField] private float cloneDuration;
     [SerializeField] private bool canAttack;
 
-    public void CreateClone(Transform _cloneTransform)//传入玩家所在位置
+    public void CreateClone(Transform _cloneTransform,Vector3 _offset)//传入玩家所在位置
     {
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneController>().SetupClone(_cloneTransform,cloneDuration,canAttack);
+        newClone.GetComponent<CloneController>().SetupClone(_cloneTransform,cloneDuration,canAttack,_offset);
     }
 
 
