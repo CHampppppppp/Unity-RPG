@@ -48,6 +48,8 @@ public class Player : Entity
     public AimSwordState aimSwordState { get; private set; }
 
     public CatchSwordState catchSwordState { get; private set; }
+
+    public BlackHoleState blackHoleState { get; private set; }
     #endregion
 
     public SkillManager skill {  get; private set; }
@@ -69,6 +71,7 @@ public class Player : Entity
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
         aimSwordState = new AimSwordState(this, stateMachine, "aimSword");
         catchSwordState = new CatchSwordState(this, stateMachine, "catchSword");
+        blackHoleState = new BlackHoleState(this, stateMachine, "jump");
     }
 
     protected override void Start()
@@ -96,6 +99,12 @@ public class Player : Entity
         stateMachine.ChangeState(catchSwordState);
         Destroy(sword);
     }
+
+    public void ExitBlackHole()
+    {
+        stateMachine.ChangeState(airState);
+    }
+
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 

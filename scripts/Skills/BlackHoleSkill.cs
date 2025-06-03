@@ -22,9 +22,14 @@ public class BlackHoleSkill : Skills
     {
         base.UseSkill();
 
-        GameObject newBlackHole = Instantiate(blackHolePrefab);
+        //Debug.Log("blackhole skill used!");
+
+        GameObject newBlackHole = Instantiate(blackHolePrefab,player.transform.position,Quaternion.identity);
+
+        //if (newBlackHole != null) Debug.Log("newBlackHole created!");
 
         BlackHoleController newBlackHoleController = newBlackHole.GetComponent<BlackHoleController>();
+        //if (newBlackHoleController != null) Debug.Log("newBlackHoleController get!");
 
         newBlackHoleController.SetupBlackHole(maxSize,growSpeed,shrinkSpeed,amountOfAttack,cloneCooldown);
     }

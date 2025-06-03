@@ -23,6 +23,11 @@ public class GroundedState : PlayerStates
     public override void Update()
     {
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.R))
+            stateMachine.ChangeState(player.blackHoleState);
+
+
         if (player.IsGroundDetected() && Input.GetKeyDown(KeyCode.Space))
         {
             stateMachine.ChangeState(player.jumpState);
