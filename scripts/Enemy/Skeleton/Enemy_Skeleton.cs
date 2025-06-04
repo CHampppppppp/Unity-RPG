@@ -12,6 +12,7 @@ public class Enemy_Skeleton : Enemy
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonStunState stunState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }
+
     #endregion
 
     protected override void Awake()
@@ -35,7 +36,11 @@ public class Enemy_Skeleton : Enemy
     {
         base.Update();
 
-        if(Input.GetKeyDown(KeyCode.U))
+        //just for testing
+        //SetZeroVelocity();
+
+
+        if (Input.GetKeyDown(KeyCode.U))
             stateMachine.ChangeState(stunState);
     }
 

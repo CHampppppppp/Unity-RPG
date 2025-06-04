@@ -13,6 +13,7 @@ public class PlayerStates
     protected float xInput;
     protected float yInput;
     protected Rigidbody2D rb;
+    protected CapsuleCollider2D cd;
 
     protected float stateTimer;
     protected bool triggerCalled;
@@ -27,6 +28,7 @@ public class PlayerStates
     public virtual void Enter()
     {
         this.rb = this.player.rb;
+        this.cd = PlayerManager.instance.player.GetComponent<CapsuleCollider2D>();
         player.anim.SetBool(aniBoolName, true);
 
         triggerCalled = false;

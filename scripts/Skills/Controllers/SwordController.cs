@@ -91,8 +91,6 @@ public class SwordController : MonoBehaviour
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
                 enemy.Damaged(player.throwDir);
-            else
-                Debug.Log("enemy is null!");
         }
     }
 
@@ -104,8 +102,6 @@ public class SwordController : MonoBehaviour
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
                 enemy.Damaged(player.throwDir);
-            else
-                Debug.Log("enemy is null!");
         }
     }
 }

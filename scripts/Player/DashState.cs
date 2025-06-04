@@ -12,7 +12,7 @@ public class DashState : PlayerStates
     {
         base.Enter();
 
-        player.skill.clone.CreateClone(player.transform,Vector2.zero);
+        player.skill.clone.CreateCloneOnDashStart();
 
         stateTimer = player.dashDuration;
     }
@@ -30,6 +30,8 @@ public class DashState : PlayerStates
     public override void Exit()
     {
         base .Exit();
+
+        player.skill.clone.CreateCloneOnDashOver();
         
     }
 }

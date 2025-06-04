@@ -28,6 +28,7 @@ public class Entity : MonoBehaviour
     public EntityFX fx { get; private set; }
 
     public SpriteRenderer sr { get; private set; }
+
     #endregion
 
 

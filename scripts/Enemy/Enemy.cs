@@ -24,11 +24,13 @@ public class Enemy : Entity
     [SerializeField] protected GameObject counterImage;
 
 
+
     public EnemyStateMachine stateMachine { get; private set; }
     protected override void Awake()
     {
         base.Awake();
         stateMachine = new EnemyStateMachine();
+
     }
 
     protected override void Update()

@@ -8,13 +8,16 @@ public class BlackHoleController : MonoBehaviour
     [SerializeField] private GameObject hotKeyPrefab;
     [SerializeField] private List<KeyCode> keyCodeList;
 
-    public float maxSize;
-    public float growSpeed;
-    public float shrinkSpeed;
+    private float maxSize;
+    private float growSpeed;
+    private float shrinkSpeed;
+    private float blackHoleTimer;
+
     private bool canGrow = true;
     private bool canShrink = false;
     public bool canCreateHotKey = true;
-    private bool cloneAttackReleased;
+    private bool cloneAttackReleased = false;
+    private bool playerCanDisapper = true;
 
     private int amountOfAttacks = 4;
     private float cloneAttackCooldown = .3f;
@@ -23,16 +26,18 @@ public class BlackHoleController : MonoBehaviour
     public List<Transform> targets = new List<Transform>();
     private List<GameObject> createdHotKey = new List<GameObject>();
 
+    public bool playerCanExitState {  get; private set; }
 
-    public void SetupBlackHole(float _maxSize, float _growSpeed, float _shrinkSpeed, int _amountOfAttack, float _cloneAttackCooldown)
+
+    public void SetupBlackHole(float _maxSize, float _growSpeed, float _shrinkSpeed, int _amountOfAttack, float _cloneAttackCooldown,float _blackHoleDuration)
     {
-        Debug.Log("enter SetupBlackHole!");
+        //Debug.Log("enter SetupBlackHole!");
         maxSize = _maxSize;
         growSpeed = _growSpeed;
         shrinkSpeed = _shrinkSpeed;
         amountOfAttacks = _amountOfAttack;
         cloneAttackCooldown = _cloneAttackCooldown;
-
+        blackHoleTimer = _blackHoleDuration;
     }
 
 
@@ -40,9 +45,18 @@ public class BlackHoleController : MonoBehaviour
     {
         //Debug.Log("BlackHoleController updating!");
         cloneAttackTimer -= Time.deltaTime;
+        blackHoleTimer -= Time.deltaTime;
+
+        if (blackHoleTimer < 0 && !cloneAttackReleased)//不按R攻击，时间到了黑洞消失 或者 攻击完成后延迟一秒消失
+        {
+            blackHoleTimer = Mathf.Infinity;
+
+            Invoke("FinishBlackHoleAbility", 1f);
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log("Release clone Attack!");
             RealeaseCloneAttack();
         }
 
@@ -69,13 +83,18 @@ public class BlackHoleController : MonoBehaviour
         cloneAttackReleased = true;
         canCreateHotKey = false;
 
-        PlayerManager.instance.player.MakeTransparent(true);
+        if(playerCanDisapper)
+        {
+            playerCanDisapper = false;
+            PlayerManager.instance.player.MakeTransparent(true);
+        }
     }
 
     private void FinishBlackHoleAbility()
     {
-        PlayerManager.instance.player.ExitBlackHole();
-        cloneAttackReleased = false;
+        DestroyHotKeys();
+        Debug.Log("black hole finish!");
+        playerCanExitState = true;
         canShrink = true;
     }
 
@@ -90,19 +109,21 @@ public class BlackHoleController : MonoBehaviour
             float xOffset;
 
             if (Random.Range(0, 100) > 50)
-                xOffset = 2;
+                xOffset = 1;
             else
-                xOffset = -2;
+                xOffset = -1;
 
-            SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
+            if(targets.Count > 0)
+                SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
             amountOfAttacks--;
-            //Debug.Log("amountOfAttack " + amountOfAttacks);
+            Debug.Log("amountOfAttack " + amountOfAttacks);
 
             if (amountOfAttacks <= 0)
             {
-                Invoke("FinishBlackHoleAbility",1.5f);
+                cloneAttackReleased = false;
 
-                //Debug.Log("canShrink " + canShrink);
+                Debug.Log("attack finish!");
+
             }
         }
     }
@@ -148,20 +169,24 @@ public class BlackHoleController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<Enemy>() != null)
+        Enemy enemy = collision.GetComponent<Enemy>();
+        if(enemy != null)
         {
-            collision.GetComponent<Enemy>().enabled = false;
+            enemy.enabled = false;
 
             CreateHotKey(collision);
-
-
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.GetComponent<Enemy>() != null)
-            collision.GetComponent <Enemy>().enabled = true;
+        Enemy enemy = collision.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            enemy.enabled = true;
+        }
+
     }
 
     public void AddEnemyToList(Transform _enemyTransform) => targets.Add(_enemyTransform);

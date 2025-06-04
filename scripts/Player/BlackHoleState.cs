@@ -35,6 +35,7 @@ public class BlackHoleState : PlayerStates
 
         player.rb.gravityScale = defaultGravity;
         player.MakeTransparent(false);
+        skillUsed = false;
     }
 
     public override void Update()
@@ -43,24 +44,31 @@ public class BlackHoleState : PlayerStates
 
 
         if (stateTimer > 0)
+        {
             rb.velocity = new Vector2(0, 15);
+            cd.enabled = false;
+        }
 
         if (stateTimer < 0)
         {
-            rb.velocity = new Vector2(0, -1f);
+            rb.velocity = new Vector2(0, -.5f);
 
             if (!skillUsed)
             {
                 if (player.skill.blackHole.CanUseSkill())
                 {
-                    player.skill.blackHole.UseSkill();
+                    //player.skill.blackHole.UseSkill();
 
                     skillUsed = true;
                 }
             }
         }
 
-        // 当黑洞中的所有攻击结束后，退出当前状态（blackHoleController.cs）
+        if (player.skill.blackHole.SkillCompleted())
+        {
+            cd.enabled = true;
+            stateMachine.ChangeState(player.airState);
+        }
 
 
     }

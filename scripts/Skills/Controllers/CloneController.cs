@@ -33,7 +33,7 @@ public class CloneController : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void SetupClone(Transform _newTransform,float _cloneDuration,bool _canAttack,Vector3 _offset)
+    public void SetupClone(Transform _newTransform,float _cloneDuration,bool _canAttack,Vector3 _offset,Transform _closestEnemy)
     {
         if (_canAttack)
             anim.SetInteger("attackCount", Random.Range(1, 4));//左闭右开
@@ -41,7 +41,7 @@ public class CloneController : MonoBehaviour
         transform.position = _newTransform.position + _offset;
         cloneTimer = _cloneDuration;
 
-
+        closestEnemy = _closestEnemy;
         FaceClosestTarget();
     }
 
@@ -56,7 +56,7 @@ public class CloneController : MonoBehaviour
 
         foreach (var hit in colliders)
         {
-            if (hit.GetComponent<Enemy>() != null)   //控制造成伤害而不是播放动画         
+            if (hit.GetComponent<Enemy>() != null)   //控制造成伤害而不是攻击动画         
                 hit.GetComponent<Enemy>().Damaged(PlayerManager.instance.player.facingDir);
                 
         }
@@ -64,25 +64,6 @@ public class CloneController : MonoBehaviour
 
     private void FaceClosestTarget()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 25);
-
-        float closestDistance = Mathf.Infinity;
-
-        foreach (var hit in colliders)
-        {
-            if (hit.GetComponent<Enemy>() != null)
-            {
-                float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
-
-                if (distanceToEnemy < closestDistance)
-                {
-                    closestDistance = distanceToEnemy;
-                    closestEnemy = hit.transform;
-                }
-            }
-
-        }
-
         if(closestEnemy != null)
         {
             if (transform.position.x > closestEnemy.position.x)

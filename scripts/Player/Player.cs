@@ -44,7 +44,7 @@ public class Player : Entity
     public WallJumpState wallJumpState { get; private set; }    
     public PrimaryAttackState primaryAttackState { get; private set; }
 
-    public PlayerCounterAttackState counterAttackState { get; private set; }
+    public CounterAttackState counterAttackState { get; private set; }
     public AimSwordState aimSwordState { get; private set; }
 
     public CatchSwordState catchSwordState { get; private set; }
@@ -54,6 +54,7 @@ public class Player : Entity
 
     public SkillManager skill {  get; private set; }
     public GameObject sword {  get; private set; }
+
                                                                                         
     //¶¨Òå
     protected override void Awake()
@@ -68,7 +69,7 @@ public class Player : Entity
         wallSlideState = new WallSlideState(this, stateMachine, "wallSlide");
         wallJumpState = new WallJumpState(this, stateMachine, "jump");
         primaryAttackState = new PrimaryAttackState(this, stateMachine, "attack");
-        counterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
+        counterAttackState = new CounterAttackState(this, stateMachine, "counterAttack");
         aimSwordState = new AimSwordState(this, stateMachine, "aimSword");
         catchSwordState = new CatchSwordState(this, stateMachine, "catchSword");
         blackHoleState = new BlackHoleState(this, stateMachine, "jump");
@@ -87,6 +88,11 @@ public class Player : Entity
         base.Update();
 
         stateMachine.currentState.Update();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            skill.crystal.CanUseSkill();
+        }
     }
 
     public void AssignNewSword(GameObject _newSword)
@@ -99,12 +105,6 @@ public class Player : Entity
         stateMachine.ChangeState(catchSwordState);
         Destroy(sword);
     }
-
-    public void ExitBlackHole()
-    {
-        stateMachine.ChangeState(airState);
-    }
-
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
