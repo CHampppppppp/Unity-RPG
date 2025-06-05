@@ -16,8 +16,12 @@ public class SkeletonAnimationTrigger : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(enemy.attackCheck.position, enemy.attackCheckRadius);
 
         foreach (var hit in colliders)
-            if(hit.GetComponent<Player>() != null)
-                hit.GetComponent<Player>().Damaged(enemy.facingDir);
+            if (hit.GetComponent<Player>() != null)
+            {
+                CharacterStats target = hit.GetComponent<CharacterStats>();
+                enemy.stats.DoMagicDamage(target, enemy.facingDir);
+                enemy.stats.DoDamage(target, enemy.facingDir);
+            }
     }
 
     private void OpenCounterWindow() => enemy.OpenCounterAttackWindow();

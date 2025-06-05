@@ -63,7 +63,7 @@ public class CrystalController : MonoBehaviour
             if (enemy != null)
             {
                 float explosiveDir = this.transform.position.x - enemy.transform.position.x > 0 ? -1 : 1;
-                enemy.Damaged(explosiveDir);
+                enemy.DamageEffect(explosiveDir);
             }
         }
     }
@@ -74,7 +74,6 @@ public class CrystalController : MonoBehaviour
         if (canExplode)
         {
             canGrow = true;
-            //if (anim == null) Debug.LogError("anim is null!");
             anim.SetTrigger("explode");
         }
         else

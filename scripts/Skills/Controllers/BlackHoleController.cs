@@ -31,7 +31,6 @@ public class BlackHoleController : MonoBehaviour
 
     public void SetupBlackHole(float _maxSize, float _growSpeed, float _shrinkSpeed, int _amountOfAttack, float _cloneAttackCooldown,float _blackHoleDuration)
     {
-        //Debug.Log("enter SetupBlackHole!");
         maxSize = _maxSize;
         growSpeed = _growSpeed;
         shrinkSpeed = _shrinkSpeed;
@@ -43,7 +42,6 @@ public class BlackHoleController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log("BlackHoleController updating!");
         cloneAttackTimer -= Time.deltaTime;
         blackHoleTimer -= Time.deltaTime;
 
@@ -56,7 +54,6 @@ public class BlackHoleController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("Release clone Attack!");
             RealeaseCloneAttack();
         }
 
@@ -78,7 +75,6 @@ public class BlackHoleController : MonoBehaviour
     }
     private void RealeaseCloneAttack()
     {
-        //Debug.Log("destroy hotkeys!");
         DestroyHotKeys();
         cloneAttackReleased = true;
         canCreateHotKey = false;
@@ -93,7 +89,6 @@ public class BlackHoleController : MonoBehaviour
     private void FinishBlackHoleAbility()
     {
         DestroyHotKeys();
-        Debug.Log("black hole finish!");
         playerCanExitState = true;
         canShrink = true;
     }
@@ -116,13 +111,10 @@ public class BlackHoleController : MonoBehaviour
             if(targets.Count > 0)
                 SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
             amountOfAttacks--;
-            Debug.Log("amountOfAttack " + amountOfAttacks);
 
             if (amountOfAttacks <= 0)
             {
                 cloneAttackReleased = false;
-
-                Debug.Log("attack finish!");
 
             }
         }

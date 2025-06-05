@@ -72,7 +72,6 @@ public class SwordController : MonoBehaviour
 
         canRotate = false;
         circleCollider.enabled = false;
-        //Debug.Log($"canRotate: {canRotate}, circleCollider.enabled: {circleCollider.enabled}");
 
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -90,7 +89,7 @@ public class SwordController : MonoBehaviour
         {
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.Damaged(player.throwDir);
+                enemy.DamageEffect(player.throwDir);
         }
     }
 
@@ -101,7 +100,7 @@ public class SwordController : MonoBehaviour
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.Damaged(player.throwDir);
+                enemy.DamageEffect(player.throwDir);
         }
     }
 }

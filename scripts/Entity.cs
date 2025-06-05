@@ -29,6 +29,10 @@ public class Entity : MonoBehaviour
 
     public SpriteRenderer sr { get; private set; }
 
+    public CharacterStats stats { get; private set; }
+
+    public CapsuleCollider2D cd { get; private set; }
+
     #endregion
 
 
@@ -45,6 +49,8 @@ public class Entity : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponent<EntityFX>();
+        stats = GetComponent<CharacterStats>();
+        cd = GetComponent<CapsuleCollider2D>();
     }
 
     protected virtual void Update()
@@ -107,7 +113,7 @@ public class Entity : MonoBehaviour
     }
     #endregion
 
-    public virtual void Damaged(float _attackDir)//攻击方的朝向=受击方被击飞的方向
+    public virtual void DamageEffect(float _attackDir)//攻击方的朝向=受击方被击飞的方向
     {
         fx.StartCoroutine("FlashFX");
         StartCoroutine("HitKnockback",_attackDir);
@@ -120,7 +126,7 @@ public class Entity : MonoBehaviour
 
         rb.velocity = new Vector2(knockbackDirection.x * _attackDir, knockbackDirection.y);
 
-        yield return new WaitForSeconds(0.07f);
+        yield return new WaitForSeconds(0.1f); //0.07 default
         isKnocked = false;
     }
 
@@ -130,5 +136,10 @@ public class Entity : MonoBehaviour
             sr.color = Color.clear;
         else
             sr.color = Color.white;
+    }
+
+    public virtual void Die()
+    {
+
     }
 }

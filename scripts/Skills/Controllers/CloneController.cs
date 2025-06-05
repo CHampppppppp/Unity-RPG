@@ -57,8 +57,12 @@ public class CloneController : MonoBehaviour
         foreach (var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)   //控制造成伤害而不是攻击动画         
-                hit.GetComponent<Enemy>().Damaged(PlayerManager.instance.player.facingDir);
-                
+            {
+                EnemyStats target = hit.GetComponent<EnemyStats>();
+                Player player = PlayerManager.instance.player;
+                player.stats.DoDamage(target, -player.facingDir);
+                player.stats.DoMagicDamage(target, -player.facingDir);
+            }
         }
     }
 

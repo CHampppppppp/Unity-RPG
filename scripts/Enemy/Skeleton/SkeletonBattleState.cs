@@ -19,8 +19,6 @@ public class SkeletonBattleState : EnemyState
     {
         base.Enter();
         
-        Debug.Log("AHHHHHH");
-
         player = PlayerManager.instance.player.transform;
     }
     public override void Update()
