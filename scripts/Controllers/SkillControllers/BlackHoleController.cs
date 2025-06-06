@@ -28,6 +28,8 @@ public class BlackHoleController : MonoBehaviour
 
     public bool playerCanExitState {  get; private set; }
 
+    [SerializeField] private GameObject healthUI;
+
 
     public void SetupBlackHole(float _maxSize, float _growSpeed, float _shrinkSpeed, int _amountOfAttack, float _cloneAttackCooldown,float _blackHoleDuration)
     {
@@ -165,7 +167,6 @@ public class BlackHoleController : MonoBehaviour
         if(enemy != null)
         {
             enemy.enabled = false;
-
             CreateHotKey(collision);
         }
     }

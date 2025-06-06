@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-
+    #region Variables
     [Header("Collision info")]
     public Transform attackCheck;
     public float attackCheckRadius;
@@ -20,6 +20,7 @@ public class Entity : MonoBehaviour
 
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
+    #endregion
 
     #region components
     public Animator anim { get; private set; }
@@ -35,7 +36,7 @@ public class Entity : MonoBehaviour
 
     #endregion
 
-
+    public System.Action OnFilpped;
 
 
     protected virtual void Awake()
@@ -56,6 +57,16 @@ public class Entity : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public virtual void SlowEntityBy(float _slowPercentage, float _slowDuration)
+    {
+
+    }
+
+    protected virtual void ReturnDefaultSpeed()
+    {
+        anim.speed = 1;
     }
 
 
@@ -80,6 +91,9 @@ public class Entity : MonoBehaviour
         facingDir = facingDir * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
+
+        if(OnFilpped != null)
+            OnFilpped();
     }
 
     public virtual void FlipController(float _x)
@@ -113,11 +127,8 @@ public class Entity : MonoBehaviour
     }
     #endregion
 
-    public virtual void DamageEffect(float _attackDir)//攻击方的朝向=受击方被击飞的方向
-    {
-        fx.StartCoroutine("FlashFX");
-        StartCoroutine("HitKnockback",_attackDir);
-    }
+    //攻击方的朝向=受击方被击飞的方向
+    public virtual void DamageImpact(float _attackDir) => StartCoroutine("HitKnockback", _attackDir);
 
 
     protected virtual IEnumerator HitKnockback(float _attackDir)

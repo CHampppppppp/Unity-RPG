@@ -61,7 +61,7 @@ public class CloneController : MonoBehaviour
                 EnemyStats target = hit.GetComponent<EnemyStats>();
                 Player player = PlayerManager.instance.player;
                 player.stats.DoDamage(target, -player.facingDir);
-                player.stats.DoMagicDamage(target, -player.facingDir);
+                //player.stats.DoMagicDamage(target, -player.facingDir);
             }
         }
     }

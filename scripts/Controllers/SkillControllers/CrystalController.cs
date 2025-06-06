@@ -59,11 +59,12 @@ public class CrystalController : MonoBehaviour
 
         foreach (var hit in colliders)
         {
+            Player player = PlayerManager.instance.player;
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
             {
                 float explosiveDir = this.transform.position.x - enemy.transform.position.x > 0 ? -1 : 1;
-                enemy.DamageEffect(explosiveDir);
+                player.stats.DoMagicDamage(hit.GetComponent<CharacterStats>(), explosiveDir);
             }
         }
     }

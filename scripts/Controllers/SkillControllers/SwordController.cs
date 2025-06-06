@@ -89,7 +89,7 @@ public class SwordController : MonoBehaviour
         {
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.DamageEffect(player.throwDir);
+                player.stats.DoDamage(enemy.GetComponent<CharacterStats>(), player.throwDir);
         }
     }
 
@@ -100,7 +100,8 @@ public class SwordController : MonoBehaviour
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.DamageEffect(player.throwDir);
+                player.stats.DoDamage(enemy.GetComponent<CharacterStats>(), player.throwDir);
+
         }
     }
 }

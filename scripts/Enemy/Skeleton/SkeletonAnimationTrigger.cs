@@ -19,7 +19,7 @@ public class SkeletonAnimationTrigger : MonoBehaviour
             if (hit.GetComponent<Player>() != null)
             {
                 CharacterStats target = hit.GetComponent<CharacterStats>();
-                enemy.stats.DoMagicDamage(target, enemy.facingDir);
+                //enemy.stats.DoMagicDamage(target, enemy.facingDir);
                 enemy.stats.DoDamage(target, enemy.facingDir);
             }
     }
