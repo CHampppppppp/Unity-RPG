@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarUi : MonoBehaviour
+public class UI_HealthBar : MonoBehaviour
 {
     private Entity entity;
 
