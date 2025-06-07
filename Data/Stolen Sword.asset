@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de7d124415e74f4ca0f90ecbdd231af, type: 3}
   m_Name: Stolen Sword
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: 1
   itemName: Stolen Sword
   icon: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   equipmentType: 0

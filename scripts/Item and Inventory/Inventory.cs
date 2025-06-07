@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//仓库类，
+
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
     public List<InventoryItem> inventory;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
+
+    public List<InventoryItem> equipment;//玩家身上的装备，有多件，所以用list
+    public Dictionary<ItemDataEquipment, InventoryItem> equipmentDictionary;
 
     public List<InventoryItem> stash;
     public Dictionary<ItemData, InventoryItem> stashDictionary;
@@ -33,6 +38,9 @@ public class Inventory : MonoBehaviour
         inventory = new List<InventoryItem>();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
 
+        equipment = new List<InventoryItem>();
+        equipmentDictionary = new Dictionary<ItemDataEquipment, InventoryItem>();
+
         stash = new List<InventoryItem>();
         stashDictionary = new Dictionary<ItemData, InventoryItem>();
 
@@ -42,7 +50,42 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        
+
+    }
+
+    public void EquipItem(ItemData _item)
+    {
+        ItemDataEquipment newEquipment = _item as ItemDataEquipment;
+        InventoryItem newItem = new InventoryItem(newEquipment);
+        ItemDataEquipment OldEquipment = null;
+
+
+        foreach (KeyValuePair<ItemDataEquipment, InventoryItem> item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == newEquipment.equipmentType)
+            {
+                OldEquipment = item.Key;
+            }
+        }
+
+        if (OldEquipment != null)
+        {
+            UnEquipItem(OldEquipment);
+            AddItem(OldEquipment);//放回slot
+        }
+
+        equipment.Add(newItem);
+        equipmentDictionary.Add(newEquipment, newItem);
+        RemoveItem(_item);
+    }
+
+    private void UnEquipItem(ItemDataEquipment itemToRemove)
+    {
+        if (equipmentDictionary.TryGetValue(itemToRemove, out InventoryItem value))
+        {
+            equipment.Remove(value);
+            equipmentDictionary.Remove(itemToRemove);
+        }
     }
 
     private void UpdateSlotUI()
@@ -71,11 +114,17 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(ItemData _item)
     {
-        if(inventoryDictionary.TryGetValue(_item,out InventoryItem value))
+        if (inventoryDictionary.TryGetValue(_item, out InventoryItem value))
+        {
+            Debug.Log("remove inventory");
             RemoveFromInventory(_item, value);
+        }
 
-        if (stashDictionary.TryGetValue(_item,out InventoryItem stashValue))
+        if (stashDictionary.TryGetValue(_item, out InventoryItem stashValue))
+        {
+            Debug.Log("remove stash");
             RemoveFromStash(_item, stashValue);
+        }
 
         UpdateSlotUI();
     }
@@ -121,14 +170,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void RemoveFromInventory(ItemData _item, InventoryItem value)
+    private void RemoveFromInventory(ItemData _item, InventoryItem inventoryValue)
     {
-        if (value.stackSize < 1)
+        if (inventoryValue.stackSize <= 1)
         {
-            inventory.Remove(value);
+            inventory.Remove(inventoryValue);
             inventoryDictionary.Remove(_item);
         }
         else
-            value.RemoveStack();
+            inventoryValue.RemoveStack();
     }
 }

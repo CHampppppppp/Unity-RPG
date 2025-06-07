@@ -2,6 +2,7 @@
 using UnityEngine;
 
 
+//装备Equipment的再细分，分为weapon、armor、anulet、flask
 public enum EquipmentType
 {
     Weapon,

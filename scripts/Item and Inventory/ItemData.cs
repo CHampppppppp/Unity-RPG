@@ -1,6 +1,7 @@
 using UnityEngine;
 
 
+//Item的类别，分为材料Material 和 装备Equipment
 public enum ItemType
 {
     Material,

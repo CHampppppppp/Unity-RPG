@@ -1,5 +1,7 @@
 
 using UnityEngine;
+
+//所有item的父类，代表物品类
 public class ItemObject : MonoBehaviour
 {
     [SerializeField] private ItemData itemData;

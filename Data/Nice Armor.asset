@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de7d124415e74f4ca0f90ecbdd231af, type: 3}
   m_Name: Nice Armor
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemName: 
-  icon: {fileID: 0}
-  equipmentType: 0
+  itemType: 1
+  itemName: NIce Armor
+  icon: {fileID: -1294465547, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  equipmentType: 1

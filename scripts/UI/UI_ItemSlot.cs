@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class UI_ItemSlot : MonoBehaviour
+
+public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemText;
@@ -30,4 +32,12 @@ public class UI_ItemSlot : MonoBehaviour
             }
         }
     }
+
+    public void OnPointerDown(PointerEventData eventData)//null pointer bug to be fixed
+    {
+        Debug.Log("equiped " + item.data.itemName);
+        if(item.data.itemType == ItemType.Equipment)
+            Inventory.instance.EquipItem(item.data);
+    }
 }
+ 

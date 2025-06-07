@@ -10,7 +10,7 @@ public class InventoryItem
     public InventoryItem(ItemData _newItemData)
     {
         data = _newItemData;
-        AddStack();
+        AddStack();//默认数量为1
     }
 
     public void AddStack() => stackSize++;
