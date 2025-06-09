@@ -4,13 +4,18 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 
-public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
+public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemText;
 
     public InventoryItem item;
+    private UI ui;
 
+    private void Start()
+    {
+        ui = GetComponentInParent<UI>();
+    }
 
     public void UpdateSlot(InventoryItem _newItem)
     {
@@ -33,11 +38,48 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)//null pointer bug to be fixed
+    public void CleanUpSlot()
     {
-        Debug.Log("equiped " + item.data.itemName);
-        if(item.data.itemType == ItemType.Equipment)
+
+        itemImage.color = Color.clear;
+        //itemImage = null;
+
+        itemText.text = "";
+    }
+
+
+    public virtual void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData == null)
+            return;
+
+        if (item == null)
+            return;
+
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            Inventory.instance.RemoveItem(item.data);
+            return;
+        }
+
+        if (item.data.itemType == ItemType.Equipment)
             Inventory.instance.EquipItem(item.data);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item == null)
+            return;
+
+        ui.itemTip.ShowTip(item.data as ItemDataEquipment);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (item == null)
+            return;
+
+        ui.itemTip.HideTip();
     }
 }
  

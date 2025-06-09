@@ -22,6 +22,8 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 EnemyStats target = hit.GetComponent<EnemyStats>();
                 player.stats.DoDamage(target,player.facingDir);
                 //player.stats.DoMagicDamage(target, player.facingDir);
+
+                Inventory.instance.GetEquipmentItem(EquipmentType.Weapon).ExecuteItemEffect();
             }
         }
     }

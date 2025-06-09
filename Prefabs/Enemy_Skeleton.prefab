@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2139005885
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -85727878, guid: 687df074731fbf744b668d2275dbb675, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 2168599946227345145}
   - component: {fileID: 401895146759754710}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Health_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.747
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 8898763132733304257}
   - component: {fileID: 1584039616945066444}
   - component: {fileID: 7061113258934498899}
+  - component: {fileID: 6065449074347256309}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -424,6 +425,8 @@ MonoBehaviour:
   isShocked: 0
   ailmentDuration: 2
   shockStrikePrefab: {fileID: 5071423148759045660, guid: 0082dd90829b4dc44b191f0f5c655f9c, type: 3}
+  level: 0
+  percentageModifier: 0
 --- !u!70 &7061113258934498899
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -459,6 +462,26 @@ CapsuleCollider2D:
   m_Offset: {x: 0.030695278, y: -0.33764789}
   m_Size: {x: 1.1139053, y: 1.6752964}
   m_Direction: 0
+--- !u!114 &6065449074347256309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2364878076720587130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbe2e09a82737c4f85624d35943b17c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropAmount: 2
+  possibleDrop:
+  - {fileID: 11400000, guid: 7330c92b3ddab314c957528ec0b4900c, type: 2}
+  - {fileID: 11400000, guid: cef65259fa788254ca4151635db36a7a, type: 2}
+  - {fileID: 11400000, guid: 9750911c6f710b84d94c4b5215ffe914, type: 2}
+  - {fileID: 11400000, guid: e77319163e8f7e7498d5340b87614489, type: 2}
+  - {fileID: 11400000, guid: 6c41293c801ec9e4d847740eac303912, type: 2}
+  dropPrefab: {fileID: 8530003417410977508, guid: 9ba6d76bc299fa84b8b9a10948664fdb, type: 3}
 --- !u!1 &2851300992400985130
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +553,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2139005885
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.9150943, g: 0.14244394, b: 0.14244394, a: 0.64705884}

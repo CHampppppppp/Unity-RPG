@@ -84,7 +84,10 @@ public class BlackHoleController : MonoBehaviour
         if(playerCanDisapper)
         {
             playerCanDisapper = false;
-            PlayerManager.instance.player.MakeTransparent(true);
+            Player player = PlayerManager.instance.player;
+            player.MakeTransparent(true);
+            Canvas canvas = player.GetComponentInChildren<Canvas>();    
+            canvas.enabled = false;
         }
     }
 

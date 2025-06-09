@@ -1,4 +1,28 @@
+using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+
+
+public enum StatType
+{
+    agility, // 增加一点闪避 和 1%chance
+    intelligence, //增加一点法伤 和 1%魔抗
+    vitality, // 增加 hp
+    strength, // 增加一点伤害 和 1%力量
+
+    damage,
+    critChance, //暴击率
+    critPower, //暴击伤害
+
+    health,
+    armor,
+    evasion,
+    magicResistance,
+
+    fireDamage,
+    iceDamage,
+    lightingDamage
+}
 
 public class CharacterStats : MonoBehaviour
 {
@@ -84,6 +108,20 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    public virtual void IncreaseStatBy(int _modifier,float _duration,Stats _statToModify)
+    {
+        StartCoroutine(StatModCoroutine(_modifier, _duration, _statToModify));
+    }
+
+    private IEnumerator StatModCoroutine(int _modifier,float _duration,Stats _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
+
     #region Damage region
     public virtual void DoDamage(CharacterStats _targetStats,float _attackDir)
     {
@@ -119,6 +157,17 @@ public class CharacterStats : MonoBehaviour
         currentHealth -= _damage;
 
         if(OnHealthChanged != null)
+            OnHealthChanged();
+    }
+
+    public virtual void IncreaseHealthBy(int _amount)
+    {
+        currentHealth += _amount;
+
+        if(currentHealth > GetMaxHealthValue())
+            currentHealth = GetMaxHealthValue();
+
+        if(OnHealthChanged!=null)
             OnHealthChanged();
     }
 
@@ -335,5 +384,39 @@ public class CharacterStats : MonoBehaviour
     public int GetMaxHealthValue()
     {
         return maxHealth.GetValue() + vitality.GetValue() * 5;
+    }
+
+    public Stats GetStatsByType(StatType _statType)
+    {
+        if (_statType == StatType.strength)
+            return strength;
+        else if (_statType == StatType.agility)
+            return agility;
+        else if (_statType == StatType.intelligence)
+            return intelligence;
+        else if (_statType == StatType.vitality)
+            return vitality;
+        else if (_statType == StatType.damage)
+            return damage;
+        else if (_statType == StatType.critChance)
+            return critChance;
+        else if (_statType == StatType.critPower)
+            return critPower;
+        else if (_statType == StatType.health)
+            return maxHealth;
+        else if (_statType == StatType.armor)
+            return armor;
+        else if (_statType == StatType.evasion)
+            return evasion;
+        else if (_statType == StatType.magicResistance)
+            return magicResistance;
+        else if (_statType == StatType.fireDamage)
+            return fireDamage;
+        else if (_statType == StatType.iceDamage)
+            return iceDamage;
+        else if (_statType == StatType.lightingDamage)
+            return lightingDamage;
+
+        return null;
     }
 }

@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de7d124415e74f4ca0f90ecbdd231af, type: 3}
-  m_Name: Nice Armor
+  m_Script: {fileID: 11500000, guid: 7af1b38deef05ea45bf0f34e122a135d, type: 3}
+  m_Name: ArmorBuff
   m_EditorClassIdentifier: 
-  itemType: 1
-  itemName: NIce Armor
-  icon: {fileID: -1294465547, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  equipmentType: 1
+  buffType: 8
+  buffAmount: 50
+  buffDuration: 7

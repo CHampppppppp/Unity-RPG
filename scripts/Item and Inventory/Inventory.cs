@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    public List<ItemData> startingItems;
+
     public List<InventoryItem> inventory;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
 
@@ -20,9 +22,18 @@ public class Inventory : MonoBehaviour
     [Header("Inventory UI")]
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform stashSlotParent;
+    [SerializeField] private Transform equipmentSlotParent;
+    [SerializeField] private Transform statSlotParent;
 
     private UI_ItemSlot[] inventoryItemSlot;
     private UI_ItemSlot[] stashItemSlot;
+    private UI_ItemSlot_Equipment[] equipmentItemSlot;
+    private UI_StatSlot[] statSlot;
+
+    [Header("Items cooldown")]
+    private float lastTimeUseFlask;
+    private float flaskCooldown;
+
 
 
     private void Awake()
@@ -46,6 +57,19 @@ public class Inventory : MonoBehaviour
 
         inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashItemSlot = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        equipmentItemSlot = equipmentSlotParent.GetComponentsInChildren<UI_ItemSlot_Equipment>();
+        statSlot = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
+
+        AddStartingItems();//初始装备
+
+    }
+
+    void AddStartingItems()
+    {
+        for (int i = startingItems.Count - 1; i >= 0; i--)
+        {
+            AddItem(startingItems[i]);
+        }
     }
 
     private void Update()
@@ -76,20 +100,46 @@ public class Inventory : MonoBehaviour
 
         equipment.Add(newItem);
         equipmentDictionary.Add(newEquipment, newItem);
+        newEquipment.AddModifiers();//增加效果
+
         RemoveItem(_item);
+
     }
 
-    private void UnEquipItem(ItemDataEquipment itemToRemove)
+    public void UnEquipItem(ItemDataEquipment itemToRemove)
     {
         if (equipmentDictionary.TryGetValue(itemToRemove, out InventoryItem value))
         {
             equipment.Remove(value);
             equipmentDictionary.Remove(itemToRemove);
+            itemToRemove.RemoveModifiers(); 
         }
     }
 
     private void UpdateSlotUI()
     {
+        for(int i=0;i< equipmentItemSlot.Length; i++)
+        {
+            foreach(KeyValuePair<ItemDataEquipment,InventoryItem> item in equipmentDictionary)
+            {
+                if(item.Key.equipmentType == equipmentItemSlot[i].slotType)
+                    equipmentItemSlot[i].UpdateSlot(item.Value);
+            }
+        }
+
+
+        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        {
+            if (inventoryItemSlot[i].item != null )
+                inventoryItemSlot[i].CleanUpSlot();
+        }
+
+        for (int i = 0; i < stashItemSlot.Length; i++)
+        {
+            if (stashItemSlot[i].item != null)
+                stashItemSlot[i].CleanUpSlot();
+        }
+
         for (int i = 0; i < inventory.Count; i++)
         {
             inventoryItemSlot[i].UpdateSlot(inventory[i]);
@@ -99,12 +149,17 @@ public class Inventory : MonoBehaviour
         {
             stashItemSlot[i].UpdateSlot(stash[i]);
         }
+
+        for (int i = 0; i < statSlot.Length; i++)
+        {
+            statSlot[i].UpdateStatValueUI();
+        }
     }
 
 
     public void AddItem(ItemData _item)
     {
-        if (_item.itemType == ItemType.Equipment)
+        if (_item.itemType == ItemType.Equipment && CanAddItem())
             AddToInventory(_item);
         else if (_item.itemType == ItemType.Material)
             AddToStash(_item);
@@ -116,17 +171,25 @@ public class Inventory : MonoBehaviour
     {
         if (inventoryDictionary.TryGetValue(_item, out InventoryItem value))
         {
-            Debug.Log("remove inventory");
             RemoveFromInventory(_item, value);
         }
 
         if (stashDictionary.TryGetValue(_item, out InventoryItem stashValue))
         {
-            Debug.Log("remove stash");
             RemoveFromStash(_item, stashValue);
         }
 
         UpdateSlotUI();
+    }
+
+    public bool CanAddItem()
+    {
+        if (inventory.Count >= inventoryItemSlot.Length)
+        {
+            Debug.Log("没有空间");
+            return false;
+        }
+        return true;
     }
 
     private void AddToStash(ItemData _item)
@@ -179,5 +242,42 @@ public class Inventory : MonoBehaviour
         }
         else
             inventoryValue.RemoveStack();
+    }
+
+    public ItemDataEquipment GetEquipmentItem(EquipmentType _type)
+    {
+        ItemDataEquipment equipedItem = null;
+
+        foreach (KeyValuePair<ItemDataEquipment, InventoryItem> item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == _type)
+            {
+                equipedItem = item.Key;
+                //Debug.Log(item.Key);
+            }
+        }
+
+        return equipedItem;
+    }
+
+    public void UseFlask()
+    {
+        ItemDataEquipment currentFlask = GetEquipmentItem(EquipmentType.Flask);
+
+        if (currentFlask == null)
+            return;
+
+        bool canUseFlask = Time.time > lastTimeUseFlask + flaskCooldown;
+
+        if (canUseFlask)
+        {
+            flaskCooldown = currentFlask.itemCooldown;
+            currentFlask.ExecuteItemEffect();
+            lastTimeUseFlask = Time.time;
+        }
+        else
+        {
+            Debug.Log("Flask is cooling down man");
+        }
     }
 }

@@ -19,7 +19,6 @@ public class SkeletonDeadState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("enter dead state");
 
         enemy.anim.SetBool(enemy.lastAnimBoolName, true);
 

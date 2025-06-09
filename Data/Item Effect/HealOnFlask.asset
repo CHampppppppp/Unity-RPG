@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e70ae6bbf922d488dc239e01048e37, type: 3}
-  m_Name: AnimalSkin
+  m_Script: {fileID: 11500000, guid: 020bc204c6a22eb45af5f2f5ca8e78c0, type: 3}
+  m_Name: HealOnFlask
   m_EditorClassIdentifier: 
-  itemName: AnimalSkin
-  icon: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  healPercent: 0.3

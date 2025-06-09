@@ -29,7 +29,7 @@ public class Stats
 
     public void RemoveModifier(int _modifier)
     {
-        modifiers.RemoveAt(_modifier);
+        modifiers.Remove(_modifier);
     }
 
     public void SetDefaultValue(int _value)

@@ -35,6 +35,7 @@ public class BlackHoleState : PlayerStates
 
         player.rb.gravityScale = defaultGravity;
         player.MakeTransparent(false);
+        player.GetComponentInChildren<Canvas>().enabled = true;// hp bar
         skillUsed = false;
     }
 
