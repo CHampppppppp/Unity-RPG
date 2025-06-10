@@ -1,4 +1,5 @@
 
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class UI : MonoBehaviour
@@ -7,11 +8,13 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject skillUI;
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionUI;
+    [SerializeField] private GameObject inGameUI;
+
     public UI_ItemTip itemTip;
 
     private void Start()
     {
-        SwitchTo(null);
+        SwitchTo(inGameUI);
     }
 
     private void Update()
@@ -47,10 +50,22 @@ public class UI : MonoBehaviour
         if (_menu != null && _menu.activeSelf)
         {
             _menu.SetActive(false);
+            CheckForInGameUI();
             return;
         }
 
         SwitchTo(_menu);
 
+    }
+
+    private void CheckForInGameUI()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf)
+                return;
+        }
+
+        SwitchTo(inGameUI);
     }
 }

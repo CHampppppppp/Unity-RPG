@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   itemName: NIce Armor
-  icon: {fileID: -1294465547, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  icon: {fileID: -1871269579, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   dropChance: 49
   equipmentType: 1
+  itemCooldown: 0
+  effects: []
   agility: 0
   intelligence: 0
   vitality: 0
